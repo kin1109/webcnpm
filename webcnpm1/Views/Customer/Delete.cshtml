@@ -1,0 +1,31 @@
+@model webcnpm1.Models.Customer
+
+@{
+    ViewData["Title"] = "Xác nhận Xóa Khách hàng";
+}
+
+<div class="header">
+    <h1><i class="fas fa-user-times"></i> @ViewData["Title"]</h1>
+    <p class="text-danger">Bạn có chắc chắn muốn xóa khách hàng này không? Tất cả các đơn hàng liên quan cũng có thể bị ảnh hưởng.</p>
+</div>
+
+<div class="dashboard-card">
+    <h3>Thông tin khách hàng sẽ bị xóa</h3>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FullName)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.FullName)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Phone)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Phone)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Email)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Email)</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa ngay" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+    </form>
+</div> 

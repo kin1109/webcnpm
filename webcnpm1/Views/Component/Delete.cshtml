@@ -1,0 +1,31 @@
+@model webcnpm1.Models.Component
+
+@{
+    ViewData["Title"] = "Xác nhận Xóa Linh kiện";
+}
+
+<div class="header">
+    <h1><i class="fas fa-trash-alt"></i> @ViewData["Title"]</h1>
+    <p class="text-danger">Bạn có chắc chắn muốn xóa linh kiện này khỏi kho không? Hành động này không thể hoàn tác.</p>
+</div>
+
+<div class="dashboard-card">
+    <h3>Thông tin linh kiện sẽ bị xóa</h3>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Price)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.QuantityInStock)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.QuantityInStock)</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa ngay" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+    </form>
+</div> 

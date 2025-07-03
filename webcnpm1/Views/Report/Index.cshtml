@@ -1,0 +1,86 @@
+@model IEnumerable<webcnpm1.Models.RepairOrder>
+
+@{
+    ViewData["Title"] = "Báo cáo doanh thu";
+    var totalRevenue = Model.SelectMany(ro => ro.Invoices)
+                            .Where(i => i.PaymentStatus == "paid")
+                            .Sum(i => i.TotalAmount ?? 0);
+    var totalOrders = Model.Count();
+}
+
+<h1 class="page-title">@ViewData["Title"]</h1>
+
+<div class="dashboard-card mb-4">
+    <div class="card-body">
+        <form asp-action="Index" method="get" class="form-inline">
+            <div class="form-group mb-2">
+                <label for="startDate" class="mr-2">Từ ngày:</label>
+                <input type="date" id="startDate" name="startDate" value="@ViewData["StartDate"]" class="form-control mr-3">
+            </div>
+            <div class="form-group mb-2">
+                <label for="endDate" class="mr-2">Đến ngày:</label>
+                <input type="date" id="endDate" name="endDate" value="@ViewData["EndDate"]" class="form-control mr-3">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2"><i class="fas fa-filter"></i> Lọc báo cáo</button>
+        </form>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="stat-card h-100">
+            <div class="stat-card-body">
+                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Tổng doanh thu (đã thanh toán)</div>
+                <div class="h5 mb-0 font-weight-bold">@totalRevenue.ToString("C0")</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="stat-card h-100">
+            <div class="stat-card-body">
+                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tổng số đơn hàng</div>
+                <div class="h5 mb-0 font-weight-bold">@totalOrders</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="dashboard-card">
+    <div class="card-header">
+        <h6 class="m-0 font-weight-bold text-primary">Chi tiết các đơn hàng</h6>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Khách hàng</th>
+                    <th>Ngày tạo</th>
+                    <th>Nhân viên</th>
+                    <th>Trạng thái</th>
+                    <th class="text-right">Tổng tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td><a asp-controller="RepairOrder" asp-action="Details" asp-route-id="@item.Id">@item.Id</a></td>
+                        <td>@(item.Customer?.FullName ?? "N/A")</td>
+                        <td>@(item.CreatedAt.HasValue ? item.CreatedAt.Value.ToString("dd/MM/yyyy") : "N/A")</td>
+                        <td>@(item.AssignedToNavigation?.FullName ?? "Chưa gán")</td>
+                        <td><span class="badge badge-status-@item.Status">@item.Status</span></td>
+                        <td class="text-right">@String.Format("{0:C0}", item.Invoices.FirstOrDefault()?.TotalAmount ?? 0)</td>
+                    </tr>
+                }
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">Không có dữ liệu cho khoảng thời gian này.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 

@@ -1,0 +1,31 @@
+@model webcnpm1.Models.Component
+
+@{
+    ViewData["Title"] = "Chi tiết Linh kiện";
+}
+
+<div class="header">
+    <h1><i class="fas fa-info-circle"></i> @ViewData["Title"]</h1>
+    <p>Thông tin chi tiết của linh kiện "@Model.Name".</p>
+</div>
+
+<div class="dashboard-card">
+    <div>
+        <h4>Linh kiện: @Model.Name</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Price)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Price)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.QuantityInStock)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.QuantityInStock)</dd>
+        </dl>
+    </div>
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Chỉnh sửa</a>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+    </div>
+</div> 

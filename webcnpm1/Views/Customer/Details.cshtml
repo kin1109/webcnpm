@@ -1,0 +1,31 @@
+@model webcnpm1.Models.Customer
+
+@{
+    ViewData["Title"] = "Chi tiết Khách hàng";
+}
+
+<div class="header">
+    <h1><i class="fas fa-info-circle"></i> @ViewData["Title"]</h1>
+    <p>Thông tin chi tiết của khách hàng "@Model.FullName".</p>
+</div>
+
+<div class="dashboard-card">
+    <div>
+        <h4>Khách hàng: @Model.FullName</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.FullName)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.FullName)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Phone)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Phone)</dd>
+
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Email)</dt>
+            <dd class="col-sm-9">@Html.DisplayFor(model => model.Email)</dd>
+        </dl>
+    </div>
+    <div class="mt-4">
+        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Chỉnh sửa</a>
+        <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+    </div>
+</div> 

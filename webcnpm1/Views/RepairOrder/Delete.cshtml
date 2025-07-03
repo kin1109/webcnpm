@@ -1,0 +1,37 @@
+@model webcnpm1.Models.RepairOrder
+
+@{
+    ViewData["Title"] = "Xác nhận Xóa Đơn sửa chữa";
+}
+
+<div class="header">
+    <h1><i class="fas fa-trash-alt"></i> @ViewData["Title"]</h1>
+    <p class="text-danger">Bạn có chắc chắn muốn xóa đơn sửa chữa này không? Hành động này sẽ xóa vĩnh viễn hồ sơ sửa chữa và không thể hoàn tác.</p>
+</div>
+
+<div class="dashboard-card">
+    <h3>Thông tin đơn sửa chữa sẽ bị xóa</h3>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">ID Đơn hàng</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Id)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Customer)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Customer.FullName)</dd>
+
+        <dt class="col-sm-3">Mô tả & Thiết bị</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.ProblemDescription)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Status)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.Status)</dd>
+
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+        <dd class="col-sm-9">@Html.DisplayFor(model => model.CreatedAt)</dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa ngay" class="btn btn-danger" />
+        <a asp-action="Index" class="btn btn-secondary">Hủy bỏ</a>
+    </form>
+</div> 

@@ -1,0 +1,76 @@
+﻿@page
+@model webcnpm1.Pages.User.EditModel
+@{
+    ViewData["Title"] = "Chỉnh sửa người dùng";
+}
+
+<div class="header">
+    <h1><i class="fas fa-user-edit"></i> @ViewData["Title"]</h1>
+    <p>Chỉnh sửa thông tin người dùng.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="dashboard-card">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="UserVM.Id" />
+                <input type="hidden" asp-for="UserVM.CreatedAt" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserVM.FullName" class="control-label"></label>
+                    <input asp-for="UserVM.FullName" class="form-control" />
+                    <span asp-validation-for="UserVM.FullName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserVM.Username" class="control-label"></label>
+                    <input asp-for="UserVM.Username" class="form-control" />
+                    <span asp-validation-for="UserVM.Username" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserVM.Email" class="control-label"></label>
+                    <input asp-for="UserVM.Email" class="form-control" type="email" />
+                    <span asp-validation-for="UserVM.Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserVM.NewPassword" class="control-label"></label>
+                    <input asp-for="UserVM.NewPassword" class="form-control" type="password" />
+                    <span asp-validation-for="UserVM.NewPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserVM.ConfirmNewPassword" class="control-label"></label>
+                    <input asp-for="UserVM.ConfirmNewPassword" class="form-control" type="password" />
+                    <span asp-validation-for="UserVM.ConfirmNewPassword" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="UserVM.Role" class="control-label"></label>
+                    <select asp-for="UserVM.Role" class="form-control">
+                        <option value="">-- Chọn vai trò --</option>
+                        <option value="Nhân viên">Nhân viên</option>
+                        <option value="Nhân viên kỹ thuật">Nhân viên kỹ thuật</option>
+                        <option value="Quản lý">Quản lý</option>
+                    </select>
+                    <span asp-validation-for="UserVM.Role" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mt-4">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Lưu thay đổi
+                    </button>
+                    <a asp-page="./Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Quay lại
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

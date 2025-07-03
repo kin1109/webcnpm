@@ -1,0 +1,66 @@
+@model IEnumerable<webcnpm1.Models.RepairOrder>
+
+@{
+    ViewData["Title"] = "Quản lý Đơn sửa chữa";
+}
+
+<div class="header">
+    <h1><i class="fas fa-file-invoice"></i> Quản lý Đơn sửa chữa</h1>
+    <p>Theo dõi và quản lý tất cả các đơn sửa chữa của khách hàng.</p>
+</div>
+
+<div class="mb-3">
+    <a asp-action="Create" class="btn btn-primary"><i class="fas fa-plus"></i> Tạo Đơn sửa chữa mới</a>
+</div>
+
+<div class="dashboard-card">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.ProblemDescription)</th>
+                <th>@Html.DisplayNameFor(model => model.Customer)</th>
+                <th>Nhân viên phụ trách</th>
+                <th>@Html.DisplayNameFor(model => model.Status)</th>
+                <th>@Html.DisplayNameFor(model => model.CreatedAt)</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ProblemDescription)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Customer.FullName)</td>
+                    <td>@(item.AssignedToNavigation?.FullName ?? "Chưa gán")</td>
+                    <td>
+                        @{
+                            string badgeClass = "";
+                            switch (item.Status)
+                            {
+                                case "Hoàn thành":
+                                    badgeClass = "badge badge-success";
+                                    break;
+                                case "Đang sửa":
+                                    badgeClass = "badge badge-primary";
+                                    break;
+                                case "Cảnh báo":
+                                    badgeClass = "badge badge-danger";
+                                    break;
+                                default:
+                                    badgeClass = "badge badge-secondary";
+                                    break;
+                            }
+                        }
+                        <span class="@badgeClass">@item.Status</span>
+                    </td>
+                    <td>@item.CreatedAt?.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info"><i class="fas fa-info-circle"></i></a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div> 
