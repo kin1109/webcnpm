@@ -31,12 +31,12 @@ public partial class WebcnpmDbContext : DbContext
 
     public virtual DbSet<Service> Services { get; set; }
 
-    public virtual DbSet<User> User { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Data Source=DESKTOP-VDMI65C;Initial Catalog=webcnpm;User ID=kien;Password=kien1109@;Encrypt=True;TrustServerCertificate=True");
 
-    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Component>(entity =>
@@ -167,7 +167,6 @@ public partial class WebcnpmDbContext : DbContext
 
             entity.HasOne(d => d.AssignedToNavigation).WithMany(p => p.RepairOrders)
                 .HasForeignKey(d => d.AssignedTo)
-                .OnDelete(DeleteBehavior.SetNull)
                 .HasConstraintName("FK__repair_or__assig__571DF1D5");
 
             entity.HasOne(d => d.Customer).WithMany(p => p.RepairOrders)
@@ -224,16 +223,12 @@ public partial class WebcnpmDbContext : DbContext
             entity.ToTable("users");
 
             entity.HasIndex(e => e.Username, "UQ__users__F3DBC5725BD89AC0").IsUnique();
-            entity.HasIndex(e => e.Email, "UQ__users__AB6E6164").IsUnique();
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.CreatedAt)
                 .HasDefaultValueSql("(getdate())")
                 .HasColumnType("datetime")
                 .HasColumnName("created_at");
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .HasColumnName("email");
             entity.Property(e => e.FullName)
                 .HasMaxLength(100)
                 .HasColumnName("full_name");
@@ -247,30 +242,6 @@ public partial class WebcnpmDbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("username");
         });
-
-        // Seed test users
-        modelBuilder.Entity<User>().HasData(
-            new User
-            {
-                Id = 1,
-                Username = "admin",
-                Password = BCrypt.Net.BCrypt.HashPassword("admin123"),
-                Email = "admin@repaircenter.com",
-                FullName = "Administrator",
-                Role = "Quản lý",
-                CreatedAt = DateTime.UtcNow
-            },
-            new User
-            {
-                Id = 2,
-                Username = "technician",
-                Password = BCrypt.Net.BCrypt.HashPassword("tech123"),
-                Email = "tech@repaircenter.com",
-                FullName = "Kỹ thuật viên",
-                Role = "Nhân viên kỹ thuật",
-                CreatedAt = DateTime.UtcNow
-            }
-        );
 
         OnModelCreatingPartial(modelBuilder);
     }
